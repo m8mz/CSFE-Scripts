@@ -1,0 +1,15 @@
+#!/usr/bin/env python3
+# CSFE Scripts - csfepass
+import os
+HOME = os.environ['HOME']
+
+import hashlib
+from getpass import getpass
+
+try:
+    pass_ = getpass("CSFE Password: ")
+    with open(HOME + '/passwd/encrypted_pass.txt', 'w') as enc_pass:
+        enc_pass.write(hashlib.md5(pass_.encode('utf8')).hexdigest())
+    print("Saved encrypted pass to ~/passwd/")
+except:
+    print("Issue creating/updating encrypted_pass.txt in ~/passwd/")

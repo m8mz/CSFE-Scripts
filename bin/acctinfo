@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+import sys
+import os
+import re
+from bs4 import BeautifulSoup
+HOME = os.environ['HOME']
+sys.path.append(HOME + '/py_modules/')
+from common import login, checkcookie, sendRequest
+
+if __name__ == "__main__":
+    user = sys.argv[1]
+    link = 'https://admin.enduranceoss.com/WidgetWrapper.cmp'
+    dataObject = {
+            "canExpand": 1,
+            "defaultTier": "tierIII",
+            "cacheTTL": "1 day",
+            "canReload": 1,
+            "startCollapsed": 1,
+            "cacheLevel": "perCustomer",
+            "OSSFlag": "CSFE_BASIC",
+            "miniDoc": "Displays basic account information for this user",
+            "widgetName": "user_information",
+            "username": user,
+            "subsystemID": 3000,
+            "docPath": "https://wiki.bizland.com/support/index.php?title=CSFE#Account_Information",
+            "title": "Account Information",
+            "load_widget": 1,
+            "__got_widget_js": 1
+        }
+    checkcookie()
+    text = sendRequest(link, dataObject)
+
+    main = text.find_all('dd')
+    name = re.findall(r'Name:</strong> (.*)<br/>', str(main[0]))[0]
+    print("Name: " + name)
+
+    question = re.findall(r'Question:</strong> (.*)<br/>', str(main[0]))[0]
+    answer = re.findall(r'Answer:</strong> (.*)<br/>', str(main[0]))[0]
+    print("Security Question: ", end="")
+    print(question, answer)
+
+    email = re.findall(r'title="(.*@.*)"', str(main[1]))[0]
+    print("Email: " + email)
+
+    hosting = re.findall(r'Hosting Plan:</strong> (.*)</p>', str(text))[0]
+    print("Hosting Plan: " + hosting)
+    creation_date = re.findall(r'Created On:</strong> (.*)</p>', str(text))[0]
+    print("Account Creation: " + creation_date)
