@@ -1,10 +1,29 @@
 # CSFE-Scripts
 Mostly Web Scraping for information from CSFE.
 
-## Basic Info
-acctinfo USERNAME - will provide basic acct information <br />
-billsnap USERNAME - will provide the billing snapshot <br />
-csfepass - change encrypted password <br />
-domhistory DOMAIN - domain ownership history <br />
-findip USERNAME - VPS/Dedicated accounts quickly grab IP address <br />
-tickets USERNAME - list tickets from account [list goes from new to oldest]
+## Basic Usage
+acctinfo -
+	Provides Name, Security question (also answer), Email, Hosting Plan, Account Creation Date
+	Usage: acctinfo ipg.testmhancockgaillard
+
+billsnap -
+	Provides the billing snapshot from CSFE for an account.
+	Usage: billsnap ipg.testmhancockgaillard
+
+
+domhistory -
+	Provides the history of the domain's ownership.
+	Usage: domhistory markanthony36.com
+
+findip -
+	Provides the IP address for the VPS/Dedi server for an account.
+	Usage: findip ipg.testtempeproserve
+	
+tickets -
+	Provides all tickets associated with an account.
+	Usage: tickets ipg.testmhancockgaillard
+
+csfepass -
+	Updates the encrypted pass file to check for valid password.
+	Usage: csfepass
+		*Asks for new password and saves it.*
