@@ -14,24 +14,23 @@ if __name__ == "__main__":
 		user = sys.argv[1]
 		link = "https://admin.enduranceoss.com/WidgetWrapper.cmp"
 		dataObject = {
-			"canExpand": 1,
 			"defaultTier": "tierIII",
+			"canExpand": 1,
+			"cacheTTL": "8 hours",
 			"canReload": 1,
-			"startCollapsed": 1,
-			"cacheLevel": "none",
-			"widgetName": "Technical",
+			"cacheLevel": "perOssUserAndCustomer",
+			"OSSFlag": "CSFE_BASIC",
+			"widgetName": "account_information",
 			"username": user,
 			"subsystemID": 3000,
-			"docPath": "https://wiki.bizland.com/wiki/index.php/Widgets/Technical",
-			"title": "Technical Information",
+			"docPath": "https://wiki.bizland.com/support/index.php?title=CSFE#Account_Information",
+			"title": "Billing Information",
 			"load_widget": 1,
 			"__got_widget_js": 1
 		}
 		req = session.send_request(link, dataObject)
-		IP = req.text.split()[-1]
-		if re.match(r'[0-9\.]+', IP):
-			print("VPS IP: {}".format(IP))
-		else:
-			print("Not a VPS account!")
-	else:
-		session.login()
+		for info in req.find_all("dl"):
+			title = re.findall(r"<dt>(.*)</dt>", str(info))
+			print(title[0])
+			for k in info.find_all("dd"):
+				print("\t{}".format(k.text.replace("\n", "").replace("  ", "")))

@@ -1,0 +1,66 @@
+#!/usr/bin/env python3
+import sys
+import os
+from bs4 import BeautifulSoup
+HOME = os.environ['HOME']
+sys.path.append(HOME + '/py_modules/')
+from common import CSFE_User
+
+if __name__ == "__main__":
+	session = CSFE_User()
+	if session.isloggedin():
+		user = sys.argv[1]
+		subject = sys.argv[2]
+		description = sys.argv[3]
+		link = 'https://admin.enduranceoss.com/WidgetWrapper.cmp'
+		dataObject = {
+			"direction": "",
+			"method": "chat",
+			"cats": "Website/Server",
+			"reason": "2005",
+			"othercategory0": "",
+			"other0": "",
+			"ThreadID": "",
+			"acc_name": "",
+			"acc_affiliation": "",
+			"verified_id_by": "Credit Card Last-4",
+			"Comment": "Jr. Admin (Marcus Hancock-Gaillard) creating ticket for account. ",
+			"openissues": "",
+			"AltSubject": "",
+			"Upsell": "",
+			"ReferenceUsers": "",
+			"escalate": "yes",
+			"ThreadSubject": subject,
+			"ThreadOwner": 599,
+			"PoolSelect": 640,
+			"ThreadStatus": 1,
+			"EscalationStatus": 0,
+			"Priority": 0,
+			"FirstAvailableSpecialist": 1,
+			"CallBackMethod": 1,
+			"FollowupInfo": "",
+			"PublicComment": "",
+			"URL": "",
+			"Symptoms": description,
+			"Save": "Save",
+			"redirecturl": "",
+			"defaultTier": "tierIII",
+			"canExpand": 1,
+			"canReload": 1,
+			"cacheLevel": "none",
+			"OSSFlag": "CSFE_BASIC",
+			"miniDoc": "Use this form to create a new customer contact or escalation.",
+			"widgetName": "new_contact",
+			"username": user,
+			"subsystemID": 3000,
+			"docPath": "https://wiki.bizland.com/support/index.php/Policy:_CSFE_Contact_Tracking",
+			"title": "Log Contact",
+			"load_widget": 1,
+			"clear_widget_cache": 1,
+			"__got_widget_js": 1
+		}
+		req = session.post_request(link, dataObject)
+		if response == 200:
+			print("Ticket Successfully Created for {}".format(user))
+		else:
+			print("FATAL Error: Response code was something other than 200!")

@@ -1,0 +1,36 @@
+#!/usr/bin/env python3
+# Author: Marcus Hancock-Gaillard
+
+import sys
+import re
+import os
+import time
+import pickle
+from bs4 import BeautifulSoup
+HOME = os.environ['HOME']
+sys.path.append(HOME + '/py_modules/')
+from common import CSFE_User
+
+if __name__ == "__main__":
+	session = CSFE_User()
+	if session.isloggedin():
+		user = sys.argv[1]
+		link = "https://admin.enduranceoss.com/csfe/widgets/vps_info_new.cmp"
+		dataObject = {
+			"action": "AsyncQueue",
+			"username": user,
+			"func": "inspect",
+			"_": ""
+		}
+		# Queue the Async Task
+		req = session.send_request(link, dataObject)
+		async_call = True
+		while async_call:
+			time.sleep(2)
+			async_res = session.send_request(link, dataObject)
+			statustext = BeautifulSoup(async_res, 'lxml')
+			for status in statustext.find_all("status"):
+				if status.text == "finished":
+					print(async_res.decode("UTF8"))
+					async_call = False
+					

@@ -1,0 +1,15 @@
+#!/usr/bin/env python3
+# Author: Marcus Hancock-Gaillard
+
+import sys, re, os
+from bs4 import BeautifulSoup
+HOME = os.environ['HOME']
+sys.path.append(HOME + '/py_modules/')
+from common import CSFE_User
+
+if __name__ == '__main__':
+	session = CSFE_User()
+	if session.isloggedin():
+		ip = sys.argv[1]
+		user = session.get_user(ip)
+		print("Username: {}".format(user))

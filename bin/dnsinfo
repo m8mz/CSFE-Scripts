@@ -14,24 +14,21 @@ if __name__ == "__main__":
 		user = sys.argv[1]
 		link = "https://admin.enduranceoss.com/WidgetWrapper.cmp"
 		dataObject = {
-			"canExpand": 1,
 			"defaultTier": "tierIII",
+			"canExpand": 1,
 			"canReload": 1,
-			"startCollapsed": 1,
 			"cacheLevel": "none",
-			"widgetName": "Technical",
-			"username": user,
-			"subsystemID": 3000,
-			"docPath": "https://wiki.bizland.com/wiki/index.php/Widgets/Technical",
-			"title": "Technical Information",
+			"tool": "/csfe/tools/domainconsole.cmp",
+			"widgetName": "tech_tools_popup",
+			"Domain": "munix.tech",
+			"username": "ipw.testmmstech",
+			"PropertyID": 33,
+			"subsystemID": 1100,
+			"docPath": "https://wiki.bizland.com/wiki/index.php/Widgets/tech_tools_popup",
+			"title": "Tools",
 			"load_widget": 1,
 			"__got_widget_js": 1
 		}
 		req = session.send_request(link, dataObject)
-		IP = req.text.split()[-1]
-		if re.match(r'[0-9\.]+', IP):
-			print("VPS IP: {}".format(IP))
-		else:
-			print("Not a VPS account!")
-	else:
-		session.login()
+		for td in req.find_all("td", attrs={"class": "displaytable"}):
+			print(td.text.replace("\n\n", "\n"))

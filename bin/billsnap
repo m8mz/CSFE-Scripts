@@ -4,31 +4,32 @@ import os
 from bs4 import BeautifulSoup
 HOME = os.environ['HOME']
 sys.path.append(HOME + '/py_modules/')
-from common import login, checkcookie, sendRequest
+from common import CSFE_User
 
 if __name__ == "__main__":
-    user = sys.argv[1]
-    link = 'https://admin.enduranceoss.com/WidgetWrapper.cmp'
-    dataObject = {
-            "canExpand": 1,
-            "defaultTier": "tierIII",
-            "canReload": 1,
-            "startCollapsed": 1,
-            "cacheLevel": "none",
-            "miniDoc": "Billing Snapshot that customers see",
-            "widgetName": "billingSnapshot",
-            "username": user,
-            "subsystemID": 3000,
-            "docPath": "https://wiki.bizland.com/wiki/index.php/Widgets/billingSnapshot",
-            "title": "Billing Snapshot",
-            "load_widget": 1,
-            "__got_widget_js": 1
-        }
-    checkcookie()
-    text = sendRequest(link, dataObject)
+	session = CSFE_User()
+	if session.isloggedin():
+		user = sys.argv[1]
+		link = 'https://admin.enduranceoss.com/WidgetWrapper.cmp'
+		dataObject = {
+			"canExpand": 1,
+			"defaultTier": "tierIII",
+			"canReload": 1,
+			"startCollapsed": 1,
+			"cacheLevel": "none",
+			"miniDoc": "Billing Snapshot that customers see",
+			"widgetName": "billingSnapshot",
+			"username": user,
+			"subsystemID": 3000,
+			"docPath": "https://wiki.bizland.com/wiki/index.php/Widgets/billingSnapshot",
+			"title": "Billing Snapshot",
+			"load_widget": 1,
+			"__got_widget_js": 1
+		}
+		req = session.send_request(link, dataObject)
 
-    for trans in text.find_all('tr'):
-        info = trans.find_all('td')
-        if info[2].text == "Product":
-           continue
-       print("Bill Date: {}\tProduct: {:40}Amount: {:10}Status: {}".format(info[1].text, info[2].text, info[3].text, info[5].text))
+		for trans in req.find_all('tr'):
+			info = trans.find_all('td')
+			if info[2].text == "Product":
+				continue
+			print("Bill Date: {}\tProduct: {:40}Amount: {:10}Status: {}".format(info[1].text, info[2].text, info[3].text, info[5].text))

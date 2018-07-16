@@ -5,47 +5,36 @@ import re
 from bs4 import BeautifulSoup
 HOME = os.environ['HOME']
 sys.path.append(HOME + '/py_modules/')
-from common import login, checkcookie, sendRequest
+from common import CSFE_User
 
-
-def get_user(domain):
-    link = 'https://admin.enduranceoss.com/csfe/search.html'
-    dataObject = {
-            "search_type": "domain",
-            "advanced_search": domain
-    }
-    result = sendRequest(link, dataObject)
-    for table in result.find_all('table'):
-        for td in table.find_all('td'):
-            for a in td.find_all('a'):
-                return a.text
 
 if __name__ == "__main__":
-    user = get_user(sys.argv[1])
-    domain = sys.argv[1]
-    link = 'https://admin.enduranceoss.com/WidgetWrapper.cmp'
-    dataObject = {
-            "canExpand": 1,
-            "defaultTier": "tierIII",
-            "canReload": 1,
-            "cacheLevel": "none",
-            "tool": "/csfe/tools/domainconsole.cmp",
-            "widgetName": "tech_tools_popup",
-            "Domain": domain,
-            "username": user,
-            "subsystemID": 1100,
-            "PropertyID": 33,
-            "docPath": "https://wiki.bizland.com/wiki/index.php/Widgets/tech_tools_popup",
-            "title": "Tools",
-            "load_widget": 1,
-            "__got_widget_js": 1
-        }
-    checkcookie()
-    text = sendRequest(link, dataObject)
+	session = CSFE_User()
+	if session.isloggedin():
+		user = session.get_user(sys.argv[1])
+		domain = sys.argv[1]
+		link = 'https://admin.enduranceoss.com/WidgetWrapper.cmp'
+		dataObject = {
+			"canExpand": 1,
+			"defaultTier": "tierIII",
+			"canReload": 1,
+			"cacheLevel": "none",
+			"tool": "/csfe/tools/domainconsole.cmp",
+			"widgetName": "tech_tools_popup",
+			"Domain": domain,
+			"username": user,
+			"subsystemID": 1100,
+			"PropertyID": 33,
+			"docPath": "https://wiki.bizland.com/wiki/index.php/Widgets/tech_tools_popup",
+			"title": "Tools",
+			"load_widget": 1,
+			"__got_widget_js": 1
+		}
+		req = session.send_request(link, dataObject)
 
-    # Display the Ownership history for the domain
-    for td in text.find_all("td", attrs={"colspan": "2"}):
-        for owner in td.find_all("a"):
-            info = td.parent.text.split()
-            info.reverse()
-            print("{} {} {} - {}".format(info[0], info[2], info[3], info[5]))
+	# Display the Ownership history for the domain
+	for td in req.find_all("td", attrs={"colspan": "2"}):
+		for owner in td.find_all("a"):
+			info = td.parent.text.split()
+			info.reverse()
+			print("{} {} {} - {}".format(info[0], info[2], info[3], info[5]))

@@ -1,0 +1,29 @@
+#!/usr/bin/env python3
+import sys
+import os
+import re
+from bs4 import BeautifulSoup
+HOME = os.environ['HOME']
+sys.path.append(HOME + '/py_modules/')
+from common import login, checkcookie, sendRequest
+
+if __name__ == "__main__":
+    link = 'https://admin.enduranceoss.com/polaris/viewpool.html'
+    dataObject = {
+            "PropertyID": '',
+            "PoolID": 640,
+            "agent": 599,
+            "Origin": '',
+            "CallBackMethod": '',
+            "Priority": '',
+            "EscalationStatus": '',
+            "sort": "TimeActive",
+            "reverse": 1
+        }
+    checkcookie()
+    text = sendRequest(link, dataObject)
+
+    for ticket in text.find_all("tr", class_=re.compile("escalationlist_row")):
+        info = ticket.find_all("td")
+        print("ID: {0.text}\tStatus: {1.text:20}\t{2.text:50} {3.text:30} {4.text} {5.text}".format(info[1], info[7], info[4], info[3], info[8], info[10]))
+        print("=" * 175)

@@ -5,44 +5,49 @@ import re
 from bs4 import BeautifulSoup
 HOME = os.environ['HOME']
 sys.path.append(HOME + '/py_modules/')
-from common import login, checkcookie, sendRequest
+from common import CSFE_User
 
 if __name__ == "__main__":
-    user = sys.argv[1]
-    link = 'https://admin.enduranceoss.com/WidgetWrapper.cmp'
-    dataObject = {
-            "canExpand": 1,
-            "defaultTier": "tierIII",
-            "cacheTTL": "1 day",
-            "canReload": 1,
-            "startCollapsed": 1,
-            "cacheLevel": "perCustomer",
-            "OSSFlag": "CSFE_BASIC",
-            "miniDoc": "Displays basic account information for this user",
-            "widgetName": "user_information",
-            "username": user,
-            "subsystemID": 3000,
-            "docPath": "https://wiki.bizland.com/support/index.php?title=CSFE#Account_Information",
-            "title": "Account Information",
-            "load_widget": 1,
-            "__got_widget_js": 1
-        }
-    checkcookie()
-    text = sendRequest(link, dataObject)
+	session = CSFE_User()
+	if session.isloggedin():
+		user = sys.argv[1]
+		link = "https://admin.enduranceoss.com/WidgetWrapper.cmp"
+		dataObject = {
+			"canExpand": 1,
+			"defaultTier": "tierIII",
+			"cacheTTL": "1 day",
+			"canReload": 1,
+			"startCollapsed": 1,
+			"cacheLevel": "perCustomer",
+			"OSSFlag": "CSFE_BASIC",
+			"miniDoc": "Displays basic account information for this user",
+			"widgetName": "user_information",
+			"username": user,
+			"subsystemID": 3000,
+			"docPath": "https://wiki.bizland.com/support/index.php?title=CSFE#Account_Information",
+			"title": "Account Information",
+			"load_widget": 1,
+			"__got_widget_js": 1
+		}
+		req = session.send_request(link, dataObject)
+		# Name Field
+		main = req.find_all('dd')
+		name = re.findall(r'Name:</strong> (.*)<br/>', str(main[0]))[0]
+		print("Name: " + name)
 
-    main = text.find_all('dd')
-    name = re.findall(r'Name:</strong> (.*)<br/>', str(main[0]))[0]
-    print("Name: " + name)
+		# Security Question/Answer
+		question = re.findall(r'Question:</strong> (.*)<br/>', str(main[0]))[0]
+		answer = re.findall(r'Answer:</strong> (.*)<br/>', str(main[0]))[0]
+		print("Security Question: ", end="")
+		print(question, answer)
 
-    question = re.findall(r'Question:</strong> (.*)<br/>', str(main[0]))[0]
-    answer = re.findall(r'Answer:</strong> (.*)<br/>', str(main[0]))[0]
-    print("Security Question: ", end="")
-    print(question, answer)
+		# Email Field
+		email = re.findall(r'title="(.*@.*)"', str(main[1]))[0]
+		print("Email: " + email)
+		hosting = re.findall(r'Hosting Plan:</strong> (.*)</p>', str(req))[0]
 
-    email = re.findall(r'title="(.*@.*)"', str(main[1]))[0]
-    print("Email: " + email)
+		# Hosting Plan Field
+		print("Hosting Plan: " + hosting)
+		creation_date = re.findall(r'Created On:</strong> (.*)</p>', str(req))[0]
+		print("Account Creation: " + creation_date)
 
-    hosting = re.findall(r'Hosting Plan:</strong> (.*)</p>', str(text))[0]
-    print("Hosting Plan: " + hosting)
-    creation_date = re.findall(r'Created On:</strong> (.*)</p>', str(text))[0]
-    print("Account Creation: " + creation_date)
