@@ -27,3 +27,23 @@ csfepass -
 	Updates the encrypted pass file to check for valid password.
 	Usage: csfepass
 		*Asks for new password and saves it.*
+
+billinfo -
+	Provides the billing information we have on file.
+	Usage: billinfo [domain/IP/username]
+	
+container_status -
+	Provides the container status for unmanaged servers.
+	Usage: container_status [domain/IP/username]
+	
+rpass -
+	Generates a new root password for server.
+	Usage: rpass [domain/IP/username]
+	
+getuser -
+	Finds the username from IP address or domain name.
+	Usage: getuser [domain/IP/username]
+	
+createticket -
+	Creates a Polaris ticket for customer's account and drops it in the VPS/Dedi pool.
+	Usage: createticket [username] [subject] [details]
