@@ -10,7 +10,7 @@ from common import CSFE_User
 if __name__ == "__main__":
 	session = CSFE_User()
 	if session.isloggedin():
-		user = sys.argv[1]
+		user = session.get_user(sys.argv[1])
 		link = "https://admin.enduranceoss.com/WidgetWrapper.cmp"
 		dataObject = {
 			"canExpand": 1,
@@ -50,4 +50,3 @@ if __name__ == "__main__":
 		print("Hosting Plan: " + hosting)
 		creation_date = re.findall(r'Created On:</strong> (.*)</p>', str(req))[0]
 		print("Account Creation: " + creation_date)
-

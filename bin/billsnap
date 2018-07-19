@@ -9,7 +9,7 @@ from common import CSFE_User
 if __name__ == "__main__":
 	session = CSFE_User()
 	if session.isloggedin():
-		user = sys.argv[1]
+		user = session.get_user(sys.argv[1])
 		link = 'https://admin.enduranceoss.com/WidgetWrapper.cmp'
 		dataObject = {
 			"canExpand": 1,

@@ -14,7 +14,7 @@ from common import CSFE_User
 if __name__ == "__main__":
 	session = CSFE_User()
 	if session.isloggedin():
-		user = sys.argv[1]
+		user = session.get_user(sys.argv[1])
 		link = "https://admin.enduranceoss.com/csfe/widgets/vps_info_new.cmp"
 		dataObject = {
 			"action": "AsyncQueue",
@@ -34,4 +34,3 @@ if __name__ == "__main__":
 					password = re.findall(r"'(.*)'", str(async_res))
 					print("New Password: {}".format(password[0]))
 					async_call = False
-					

@@ -19,7 +19,7 @@ class CSFE_User(object):
 		self.cookiepath = HOME + '/temp/cookies/csfecookie'
 		self.enc_pass = HOME + '/passwd/encrypted_pass.txt'
 		self.cookie()
-      
+
 	def login(self):
 		url = "https://enduranceoss.com/cs/oss_login.html"
 		s = requests.session()
@@ -91,7 +91,7 @@ class CSFE_User(object):
 
 	def get_user(self, arg):
 		# Domain Arg
-		if re.match(r'[a-z0-9]+\.[a-z]+', arg):
+		if re.match(r'[a-z0-9]{4,}\.[a-z]+', arg):
 			link = 'https://admin.enduranceoss.com/csfe/search.html'
 			dataObject = {
 				"search_type": "domain",
@@ -116,4 +116,5 @@ class CSFE_User(object):
 			else:
 				return "Not found!"
 		else:
-			raise ValueError("Neither an IP or domain name was provided in the argument.")
+			# Going to assume it was the username provided
+			return arg

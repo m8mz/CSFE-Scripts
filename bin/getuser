@@ -10,6 +10,6 @@ from common import CSFE_User
 if __name__ == '__main__':
 	session = CSFE_User()
 	if session.isloggedin():
-		ip = sys.argv[1]
-		user = session.get_user(ip)
+		arg = sys.argv[1]
+		user = session.get_user(arg)
 		print("Username: {}".format(user))
