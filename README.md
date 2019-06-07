@@ -2,10 +2,11 @@
 Mostly Web Scraping for information from CSFE.
 
 ## Basic Usage
-acctinfo -
-	Provides Name, Security question (also answer), Email, Hosting Plan, Account Creation Date
-	Usage: acctinfo ipg.testmhancockgaillard
-	```mhancock-gaillard$ acctinfo ipw.testmmstech
+### acctinfo 
+Provides Name, Security question (also answer), Email, Hosting Plan, Account Creation Date
+Usage: acctinfo ipg.testmhancockgaillard
+```
+mhancock-gaillard$ acctinfo ipw.testmmstech
 Cookie has expired! Provide password.
 Password: 
 Successfully logged in!
@@ -13,27 +14,33 @@ Name: Marcus Hancock-Gaillard
 Security Question: What was your dream job as a child? Programmer/Hacker
 Email: marcus.hancock-gaillard@endurance.com
 Hosting Plan: Managed VPS Optimum (VPS - Unix)
-Account Creation: 06/04/2018```
+Account Creation: 06/04/2018
+```
 
-billsnap -
-	Provides the billing snapshot from CSFE for an account.
-	Usage: billsnap ipg.testmhancockgaillard
-	```mhancock-gaillard$ billsnap ipw.testmmstech
+### billsnap
+Provides the billing snapshot from CSFE for an account.
+Usage: billsnap ipg.testmhancockgaillard
+```
+mhancock-gaillard$ billsnap ipw.testmmstech
 Bill Date: 2018-07-31	Product: .space register - 1 year                Amount: $2.99     Status: $2.99
 Bill Date: 2018-07-31	Product: Domain Privacy                          Amount: $9.99     Status: $9.99
 Bill Date: 2019-07-16	Product: Domain Privacy - 1 Year                 Amount: $12.99    Status: $13.80
-Bill Date: 2020-05-20	Product: Managed VPS Optimum                     Amount: $2039.76  Status: $2039.76```
+Bill Date: 2020-05-20	Product: Managed VPS Optimum                     Amount: $2039.76  Status: $2039.76
+```
 
-domhistory -
-	Provides the history of the domain's ownership.
-	Usage: domhistory markanthony36.com
-	```mhancock-gaillard$ domhistory munix.tech
-2018 04 Jun - ipw.testmmstech```
+### domhistory
+Provides the history of the domain's ownership.
+Usage: domhistory markanthony36.com
+```
+mhancock-gaillard$ domhistory munix.tech
+2018 04 Jun - ipw.testmmstech
+```
 
-findip -
-	Provides the IP address for the VPS/Dedi server for an account.
-	Usage: findip ipg.testtempeproserve
-	```mhancock-gaillard$ findip ipw.testmmstech
+### findip
+Provides the IP address for the VPS/Dedi server for an account.
+Usage: findip ipg.testtempeproserve
+```
+mhancock-gaillard$ findip ipw.testmmstech
 VPS IP: 192.163.208.126```
 	
 tickets -
@@ -43,20 +50,24 @@ tickets -
 ************************************************************
 RESOLVED : 06/21/2018 - 16585596 - this is a test *ignore*
 ************************************************************
-RESOLVED : 06/21/2018 - 16585572 - EXAMPLE```
+RESOLVED : 06/21/2018 - 16585572 - EXAMPLE
+```
 
-csfepass -
-	Updates the encrypted pass file to check for valid password.
-	Usage: csfepass
-		*Asks for new password and saves it.*
-	```mhancock-gaillard$ csfepass 
+### csfepass
+Updates the encrypted pass file to check for valid password.
+Usage: csfepass
+*Asks for new password and saves it.*
+```
+mhancock-gaillard$ csfepass 
 CSFE Password: 
-Saved encrypted pass to ~/passwd/```
+Saved encrypted pass to ~/passwd/
+```
 
-billinfo -
-	Provides the billing information we have on file.
-	Usage: billinfo [domain/IP/username]
-	```mhancock-gaillard$ billinfo ipw.testmmstech
+### billinfo
+Provides the billing information we have on file.
+Usage: billinfo [domain/IP/username]
+```
+mhancock-gaillard$ billinfo ipw.testmmstech
 Billing Address:
 	10 Corporate Dr.
 	Burlington, MA 01803
@@ -65,13 +76,15 @@ Billing Address:
 Company Address:
 	10 Corporate Dr.
 	Burlington, MA 01803
-	USA```
+	USA
+```
 	
-container_status -
-	Provides the container status for unmanaged servers.
-	Usage: container_status [domain/IP/username]
-	```mhancock-gaillard$ container_status spr.stagevision
-<response><status>finished</status><content><![CDATA[ Container 'spr.stagevision' is running on 209.40.192.11 at Fri Jun  7 16:45:25 2019
+### container_status
+Provides the container status for unmanaged servers.
+Usage: container_status [domain/IP/username]
+```
+mhancock-gaillard$ container_status spr.s******
+<response><status>finished</status><content><![CDATA[ Container 'spr.s******' is running on 209.40.192.11 at Fri Jun  7 16:45:25 2019
 Running processes:
 USER	PID	%CPU	%MEM	VSZ	RSS	TTY	STAT	START	TIME	COMMAND
 root	1	0.0	0.1	2172	668	?	Ss	May31	0:09	init [3]      
@@ -173,18 +186,21 @@ bean counter :
             dummy                           0                    0  9223372036854775807  9223372036854775807                    0
             dummy                           0                    0  9223372036854775807  9223372036854775807                    0
             numiptent                      27                   27                 1536                 1536                    0
- ]]></content></response>```
+ ]]></content></response>
+ ```
 	
-rpass -
-	Generates a new root password for server.
-	Usage: rpass [domain/IP/username]
+### rpass
+Generates a new root password for server.
+Usage: rpass [domain/IP/username]
 	
-getuser -
-	Finds the username from IP address or domain name.
-	Usage: getuser [domain/IP/username]
-	```mhancock-gaillard$ getuser munix.tech
-Username: ipw.testmmstech```
+### getuser
+Finds the username from IP address or domain name.
+Usage: getuser [domain/IP/username]
+```
+mhancock-gaillard$ getuser munix.tech
+Username: ipw.testmmstech
+```
 	
-createticket -
-	Creates a Polaris ticket for customer's account and drops it in the VPS/Dedi pool.
-	Usage: createticket [username] [subject] [details]
+### createticket
+Creates a Polaris ticket for customer's account and drops it in the VPS/Dedi pool.
+Usage: createticket [username] [subject] [details]
